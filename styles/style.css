@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   font-family: 'Press Start 2P', cursive;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body{  
@@ -10,7 +11,7 @@ body{
   align-items: flex-start;
   min-height: 100vh;
   background: #262626;
-  overflow: hidden;
+  overflow-x: hidden;;
 }
 
 .title{
@@ -359,5 +360,35 @@ EL TITLE ES EL MISMO Y SE OMITE
   #selector-button {
     margin-top: 210px;
   }
+  .attackButton {
+    font-size: 1rem;
+    padding: 2rem 8rem;
+    letter-spacing: 0;
+    position: relative;
+    font-family: inherit;
+    overflow: hidden;
+    line-height: 1.4rem;
+    border-radius: 20px;
+  }
+  .buttonSection{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+  }
+  .attacks{
+    gap: 0px;
+  }
+  .info-cards {
+    padding: 1rem;
+    width: 10rem;
+    height: 15rem;
+  }
+  #enemy-pet, #your-pet {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px){
 
 }
