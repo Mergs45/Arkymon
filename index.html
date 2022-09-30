@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARKYMON!</title>
+    <script defer src="js/script.js"></script>
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <section class="pet-section" id="pet-selector"> 
+        <div class="toph1">            
+            <h1 class="title">
+                <p>
+                    ARKYMON
+                </p>
+            </h1>
+        </div>
+
+        <div class="subtitle">
+            <h2 class="subh2">Selecciona tu mascota:</h2>
+        </div>
+
+        <div class="hexarea first">
+
+            <input type="radio" name="pet" id="Wadyrmon" />
+            <label class="mokecard" for="Wadyrmon">
+                <img class="icon" src="/Practicas platzi/Mokepon/Icons/Mokepones/wadyrmon.png" alt="icon de Wadyrmon">
+                <p>Wadyrmon<br><img class="naturalElement" src="/Practicas platzi/Mokepon/Icons/Elements/water.png" alt="elemento de agua"></p></label>
+            
+            <input type="radio" name="pet" id="Wynnamon" />
+            <label class="mokecard" for="Wynnamon">
+                <img class="icon" src="/Practicas platzi/Mokepon/Icons/Mokepones/wynnamon.png" alt="icon de Wynnamon">
+                <p>Wynnamon<br><img class="naturalElement" src="/Practicas platzi/Mokepon/Icons/Elements/water.png" alt="elemento de agua"></p>
+            </label>
+
+            <input type="radio" name="pet" id="Pyromon" />
+            <label class="mokecard" for="Pyromon">
+                <img class="icon" src="/Practicas platzi/Mokepon/Icons/Mokepones/pyromon.png" alt="icon de Pyromon">
+                <p>Pyromon<br><img class="naturalElement" src="/Practicas platzi/Mokepon/Icons/Elements/fire.png" alt="elemento de fuego"></p>
+            </label>
+
+        </div>
+        <div class="hexarea mid">
+
+            <label class="mokecard" id="selected-pet" for="playerIcon">
+
+            </label>
+
+            <input type="radio" name="pet" id="Pyronumon"/>
+            <label class="mokecard" for="Pyronumon">
+                <img class="icon" src="/Practicas platzi/Mokepon/Icons/Mokepones/pyronumon.png" alt="icon de Pyronumon">
+                <p>Pyronumon<br><img class="naturalElement" src="/Practicas platzi/Mokepon/Icons/Elements/fire.png" alt="elemento de fuego"></p>
+            </label>
+
+            <input type="radio" name="pet" id="Arkyteranomon"/>
+            <label class="mokecard" for="Arkyteranomon">
+                <img class="icon" src="/Practicas platzi/Mokepon/Icons/Mokepones/arkyteranomon.png" alt="icon de Arkyteranomon">
+                <p>Arky.mon<br><img class="naturalElement" src="/Practicas platzi/Mokepon/Icons/Elements/earth.png" alt="elemento de tierra"></p>
+            </label>
+
+            <label class="mokecard" id="selected-pet" for="enemyIcon">
+
+            </label>
+
+        </div>
+        <div class="hexarea last">
+
+            <input type="radio" name="pet" id="Cinnamon"/>
+            <label class="mokecard" for="Cinnamon">
+                <img class="icon" src="/Practicas platzi/Mokepon/Icons/Mokepones/cinnamon.png" alt="icon de Cinnamon">
+                <p>Cinnamon<br><img class="naturalElement" src="/Practicas platzi/Mokepon/Icons/Elements/earth.png" alt="elemento de tierra"></p>
+            </label>
+
+            <input type="radio" name="pet" id="Mezzopranomon"/>
+            <label class="mokecard" for="Mezzopranomon">
+                <img class="icon" src="/Practicas platzi/Mokepon/Icons/Mokepones/mezzopranomon.png" alt="icon de Mezzopranomon">
+                <p>Mezzo.mon<br><img class="naturalElement" src="/Practicas platzi/Mokepon/Icons/Elements/water.png" alt="elemento de agua"><img class="naturalElement" src="/Practicas platzi/Mokepon/Icons/Elements/earth.png" alt="elemento de tierra"></p>
+            </label>
+
+            <input type="radio" name="pet" id="Vulkanomon"/>
+            <label class="mokecard" for="Vulkanomon">
+                <img class="icon" src="/Practicas platzi/Mokepon/Icons/Mokepones/vulkanomon.png" alt="icon de Vulkanomon">
+                <p>Vulka.mon<br><img class="naturalElement" src="/Practicas platzi/Mokepon/Icons/Elements/earth.png" alt="elemento de tierra"><img class="naturalElement" src="/Practicas platzi/Mokepon/Icons/Elements/fire.png" alt="elemento de fuego"></p>
+            </label>
+
+        </div>
+        
+        <button id="selector-button"><span>PLAY</span></button>
+    </section>
+
+    <section class="attackGame" id="attack-selector">           
+        <h1 class="title">
+            <p>
+                ¡ARKYMON!
+            </p>
+        </h1>
+        <div class="subtitle2">
+            <h2 class="subh2">Selecciona tu ataque</h2>
+        </div>
+
+        <section class="buttonSection">
+            <button class="attackButton" id="fire-button">🔥Fuego🔥</button>
+            <button class="attackButton" id="water-button">💧Agua💧</button>
+            <button class="attackButton" id="earth-button">🌱Tierra🌱</button>
+        </section>
+
+        
+        <div class="message" id="mensaje">            
+            <p class="result" id="result-section">Buena suerte!</p>
+
+            <section class="resetSection" id="reset">
+                <button class="resetButton" id="reset-button">Jugar de nuevo</button>
+            </section>
+        </div>   
+
+        <div class="attacks">
+            <div class="info-cards">
+                <p id="player-health">3</p>
+                <p id="your-pet"></p>
+                <section id="section-player-attack"></section>
+            </div>
+            <div class="info-cards">
+                <p id="enemy-health">3</p>
+                <p id="enemy-pet"></p>
+                <section id="section-enemy-attack"></section>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
