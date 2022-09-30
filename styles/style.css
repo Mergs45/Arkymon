@@ -10,6 +10,7 @@ body{
   align-items: flex-start;
   min-height: 100vh;
   background: #262626;
+  overflow: hidden;
 }
 
 .title{
@@ -35,7 +36,7 @@ body{
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 .pet-section .hexarea{
   display: flex;
@@ -357,7 +358,6 @@ EL TITLE ES EL MISMO Y SE OMITE
   }
   #selector-button {
     margin-top: 210px;
-    border-radius: 20px;
   }
 
 }
