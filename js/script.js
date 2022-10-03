@@ -1,26 +1,18 @@
-let sectionAttacktSelector = document.getElementById("attack-selector")
-let selectorButton = document.getElementById("selector-button")
+const sectionAttacktSelector = document.getElementById("attack-selector")
+const selectorButton = document.getElementById("selector-button")
 
-let waterButton = document.getElementById("water-button")
-let fireButton = document.getElementById("fire-button")
-let earthButton = document.getElementById("earth-button")
 
-let sectionReset = document.getElementById("reset")
-let resetButton = document.getElementById("reset-button")
 
-let sectionPetSelector = document.getElementById("pet-selector")
-let inputWadyrmon = document.getElementById("Wadyrmon")
-let inputWynnamon = document.getElementById("Wynnamon")
-let inputPyromon = document.getElementById("Pyromon")
-let inputPryronumon = document.getElementById("Pyronumon")
-let inputArkyteranomon = document.getElementById("Arkyteranomon")
-let inputCinnamon = document.getElementById("Cinnamon")
-let inputMezzopranomon = document.getElementById("Mezzopranomon")
-let inputVulkanomon = document.getElementById("Vulkanomon")
+const sectionReset = document.getElementById("reset")
+const resetButton = document.getElementById("reset-button")
+sectionReset.style.display = "none"
 
-let enemyPet = document.getElementById("enemy-pet")
-let yourPet = document.getElementById("your-pet")
-let randomPet = randomizer(1,8)
+const sectionPetSelector = document.getElementById("pet-selector")
+
+const enemyPet = document.getElementById("enemy-pet")
+const yourPet = document.getElementById("your-pet")
+const attacksContainer = document.getElementById("attacks-container")
+
 
 let spanPlayerHealth = document.getElementById("player-health")
 let spanEnemyHealth = document.getElementById("enemy-health")
@@ -29,12 +21,28 @@ let sectionMessage = document.getElementById("result-section")
 let sectionPlayerAttack = document.getElementById("section-player-attack") 
 let sectionEnemyAttack = document.getElementById("section-enemy-attack") 
 
+const cardContainer = document.getElementById("cardContainer")
+
 let playerAttack, 
     enemyAttack, 
     playerHealth = 3, 
     enemyHealth = 3, 
     arkymons = [], 
-    arkymonsOption
+    arkymonsOption,
+    playerPet,
+    arkymonAttack,
+    waterButton,
+    fireButton,
+    earthButton
+
+let inputWadyrmon
+let inputWynnamon
+let inputPyromon
+let inputPryronumon
+let inputArkyteranomon
+let inputCinnamon
+let inputMezzopranomon
+let inputVulkanomon
 
 class Arkymon {
     constructor(name, icon, health, elementName , elementIcon){
@@ -47,11 +55,23 @@ class Arkymon {
     }
 }
 
-let wadyrmon = new Arkymon("Wadyrmon", "Icons/Mokepones/wadyrmon.png", 5, "water" , "Icons/Elements/water.png")
+let wadyrmon = new Arkymon("Wadyrmon", "Icons/Mokepones/wadyrmon.png", 5, "water", "Icons/Elements/water.png")
+let wynnamon = new Arkymon("Wynnamon", "Icons/Mokepones/Wynnamon.png", 5, "water", "Icons/Elements/water.png")
 let pyromon = new Arkymon("Pyromon", "Icons/Mokepones/pyromon.png", 5, "fire" , "Icons/Elements/fire.png")
-let cinnamon = new Arkymon("Cinnamon", "Icons/Mokepones/cinnamon.png", 5, "earth" , "Icons/Elements/earth.png")
+let pyronumon = new Arkymon("Pyronumon", "Icons/Mokepones/Pyronumon.png", 5, "fire" , "Icons/Elements/fire.png")
+let cinnamon = new Arkymon("Cinnamon", "Icons/Mokepones/cinnamon.png", 5, "earth", "Icons/Elements/earth.png")
+let arkyteranomon = new Arkymon("Arkyteranomon", "Icons/Mokepones/arkyteranomon.png", 5, "earth", "Icons/Elements/earth.png")
+let mezzopranomon = new Arkymon("Mezzopranomon", "Icons/Mokepones/mezzopranomon.png", 5, "earth", "Icons/Elements/earth-water.png")
+let vulkanomon = new Arkymon("Vulkanomon", "Icons/Mokepones/vulkanomon.png", 5, "earth", "Icons/Elements/earth-fire.png")
 
 wadyrmon.attack.push(
+    { name: "💧",  id: "water-button"},
+    { name: "💧",  id: "water-button"},
+    { name: "💧",  id: "water-button"},
+    { name: "🔥",  id: "fire-button"},
+    { name: "🌱",  id: "earth-button"}
+)
+wynnamon.attack.push(
     { name: "💧",  id: "water-button"},
     { name: "💧",  id: "water-button"},
     { name: "💧",  id: "water-button"},
@@ -65,6 +85,13 @@ pyromon.attack.push(
     { name: "💧",  id: "water-button"},
     { name: "🌱",  id: "earth-button"}
 )
+pyronumon.attack.push(
+    { name: "🔥",  id: "fire-button"},
+    { name: "🔥",  id: "fire-button"},
+    { name: "🔥",  id: "fire-button"},
+    { name: "💧",  id: "water-button"},
+    { name: "🌱",  id: "earth-button"}
+)
 cinnamon.attack.push(
     { name: "🌱",  id: "earth-button"},
     { name: "🌱",  id: "earth-button"},
@@ -72,84 +99,135 @@ cinnamon.attack.push(
     { name: "🔥",  id: "fire-button"},
     { name: "💧",  id: "water-button"}
 )
+arkyteranomon.attack.push(
+    { name: "🌱",  id: "earth-button"},
+    { name: "🌱",  id: "earth-button"},
+    { name: "🌱",  id: "earth-button"},
+    { name: "🔥",  id: "fire-button"},
+    { name: "💧",  id: "water-button"}
+)
+mezzopranomon.attack.push(
+    { name: "🌱",  id: "earth-button"},
+    { name: "🌱",  id: "earth-button"},
+    { name: "💧",  id: "water-button"},
+    { name: "💧",  id: "water-button"},
+    { name: "🔥",  id: "fire-button"}
+)
+vulkanomon.attack.push(
+    { name: "🌱",  id: "earth-button"},
+    { name: "🌱",  id: "earth-button"},
+    { name: "🔥",  id: "fire-button"},
+    { name: "🔥",  id: "fire-button"},
+    { name: "💧",  id: "water-button"}
+)
 
-arkymons.push(wadyrmon, pyromon, cinnamon)
-
-
+arkymons.push(wadyrmon, wynnamon, pyromon, pyronumon ,cinnamon, arkyteranomon, mezzopranomon, vulkanomon)
 
 function startGame(){
 
     sectionAttacktSelector.style.display = "none"
 
-    arkymons.forEach((Arkymon) =>{
+    arkymons.forEach((arkymon) => {
         arkymonsOption = `
-        <input type="radio" name="pet" id=${Arkymon.name} />
-            <label class="mokecard" for=${Arkymon.name}>
-                <img class="icon" src=${Arkymon.icon} alt=${Arkymon.name}>
-                <p>${Arkymon.name}<br><img class="naturalElement" src=${Arkymon.elementIcon} alt=${Arkymon.elementName}></p>
+        <input type="radio" name="pet" id=${arkymon.name} />
+            <label class="mokecard" for=${arkymon.name}>
+                <img class="icon" src=${arkymon.icon} alt=${arkymon.name}>
+                <p>${arkymon.name}<br><img class="naturalElement" src=${arkymon.elementIcon} alt=${arkymon.elementName}></p>
             </label>
         `
+        cardContainer.innerHTML += arkymonsOption
+
+        inputWadyrmon = document.getElementById("Wadyrmon")
+        inputWynnamon = document.getElementById("Wynnamon")
+        inputPyromon = document.getElementById("Pyromon")
+        inputPryronumon = document.getElementById("Pyronumon")
+        inputArkyteranomon = document.getElementById("Arkyteranomon")
+        inputCinnamon = document.getElementById("Cinnamon")
+        inputMezzopranomon = document.getElementById("Mezzopranomon")
+        inputVulkanomon = document.getElementById("Vulkanomon")
     })
 
-    sectionReset.style.display = "none"
     selectorButton.addEventListener("click", petSelector)
-    waterButton.addEventListener("click", waterAttack)
-    fireButton.addEventListener("click", fireAttack)
-    earthButton.addEventListener("click", earthAttack)
-
+    
     resetButton.addEventListener("click", resetGame)
 }
 
 function petSelector(){
+    let play = 1
     sectionPetSelector.style.display = "none"
     sectionAttacktSelector.style.display = "flex"
-    let play = 1
 
     if(inputWadyrmon.checked){
-        yourPet.innerHTML = "Wadyrmon"
+        yourPet.innerHTML = inputWadyrmon.id
+        playerPet = inputWadyrmon.id
     }else if(inputWynnamon.checked){
-        yourPet.innerHTML = "Wynnamon"
+        yourPet.innerHTML = inputWynnamon.id
+        playerPet = inputWynnamon.id
     }else if(inputPyromon.checked){
-        yourPet.innerHTML = "Pyromon"
+        yourPet.innerHTML = inputPyromon.id
+        playerPet = inputPyromon.id
     }else if(inputPryronumon.checked){
         yourPet.innerHTML = "Pyronumon"
+        playerPet = inputPryronumon.id
     }else if(inputArkyteranomon.checked){
-        yourPet.innerHTML = "Arkyteranomon"
+        yourPet.innerHTML = inputArkyteranomon.id
+        playerPet = inputArkyteranomon.id
     }else if(inputCinnamon.checked){
-        yourPet.innerHTML = "Cinnamon"
+        yourPet.innerHTML = inputCinnamon.id
+        playerPet = inputCinnamon.id
     }else if(inputMezzopranomon.checked){
-        yourPet.innerHTML = "Mezzopranomon"
+        yourPet.innerHTML = inputMezzopranomon.id
+        playerPet = inputMezzopranomon.id
     }else if(inputVulkanomon.checked){
-        yourPet.innerHTML = "Vulkanomon"
+        yourPet.innerHTML = inputVulkanomon.id
+        playerPet = inputVulkanomon.id
     }else{
-        alert("Unknown selected, selecciona una mascota")
+        alert("Selecciona una mascota")
         play = 0
         resetGame()
     }
     if(play == 1){
+        extractAttack(playerPet)
         enemyPetSelector()
     }
 }
 
-
-function enemyPetSelector(){
-    if (randomPet == 1){
-        enemyPet.innerHTML = "Wadyrmon"
-    }else if (randomPet == 2){
-        enemyPet.innerHTML = "Wynnamon"
-    }else if (randomPet == 3){
-        enemyPet.innerHTML = "Pyromon"
-    }else if (randomPet == 4){
-        enemyPet.innerHTML = "Pyronumon"
-    }else if (randomPet == 5){
-        enemyPet.innerHTML = "Arkyteranomon"
-    }else if (randomPet == 6){
-        enemyPet.innerHTML = "Cinnamon"
-    }else if (randomPet == 7){
-        enemyPet.innerHTML = "Mezzopranomon"
-    }else if (randomPet == 8){
-        enemyPet.innerHTML = "Vulkanomon"
+function extractAttack (playerPet){
+    let attacks
+    //solución 1
+    arkymons.forEach((arkymon) => {
+        if (playerPet === arkymon.name) {
+            attacks = arkymon.attack
+        }
+    })
+    //solución 2
+    for (let i = 0; i < arkymons.length; i++){
+        if (playerPet === arkymons[i].name){
+            attacks = arkymons[i].attack
+        }
     }
+    showAttacks(attacks)
+}
+
+function showAttacks (attacks) {
+    attacks.forEach((attack) => {
+        arkymonAttack = `
+        <button class="attackButton" id=${attack.id}>${attack.name}</button>
+        `
+        attacksContainer.innerHTML += arkymonAttack
+    })
+    waterButton = document.getElementById("water-button")
+    fireButton = document.getElementById("fire-button")
+    earthButton = document.getElementById("earth-button")
+
+    waterButton.addEventListener("click", waterAttack)
+    fireButton.addEventListener("click", fireAttack)
+    earthButton.addEventListener("click", earthAttack)
+
+}
+function enemyPetSelector(){
+    let randomPet = randomizer(0, arkymons.length -1)
+    enemyPet.innerHTML = arkymons[randomPet].name
 }
 
 function waterAttack(){
