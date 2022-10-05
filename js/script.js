@@ -1,39 +1,27 @@
 const sectionAttacktSelector = document.getElementById("attack-selector")
 const selectorButton = document.getElementById("selector-button")
-
-
-
 const sectionReset = document.getElementById("reset")
 const resetButton = document.getElementById("reset-button")
 sectionReset.style.display = "none"
 
 const sectionPetSelector = document.getElementById("pet-selector")
+const yourPet = document.getElementById("your-pet")
 
 const enemyPet = document.getElementById("enemy-pet")
-const yourPet = document.getElementById("your-pet")
+
+const spanPlayerHealth = document.getElementById("player-health")
+const spanEnemyHealth = document.getElementById("enemy-health")
+
+const sectionMessage = document.getElementById("result-section") 
+const sectionPlayerAttack = document.getElementById("section-player-attack") 
+const sectionEnemyAttack = document.getElementById("section-enemy-attack") 
+const cardContainer = document.getElementById("cardContainer")
 const attacksContainer = document.getElementById("attacks-container")
 
-
-let spanPlayerHealth = document.getElementById("player-health")
-let spanEnemyHealth = document.getElementById("enemy-health")
-
-let sectionMessage = document.getElementById("result-section") 
-let sectionPlayerAttack = document.getElementById("section-player-attack") 
-let sectionEnemyAttack = document.getElementById("section-enemy-attack") 
-
-const cardContainer = document.getElementById("cardContainer")
-
-let playerAttack, 
-    enemyAttack, 
-    playerHealth = 3, 
-    enemyHealth = 3, 
-    arkymons = [], 
-    arkymonsOption,
-    playerPet,
-    arkymonAttack,
-    waterButton,
-    fireButton,
-    earthButton
+let arkymons = []
+let playerAttack = []
+let enemyAttack = []
+let arkymonsOption
 
 let inputWadyrmon
 let inputWynnamon
@@ -43,6 +31,25 @@ let inputArkyteranomon
 let inputCinnamon
 let inputMezzopranomon
 let inputVulkanomon
+
+let playerPet
+let arkymonAttacks
+let enemyArkymonAttacks
+
+let waterButton
+let fireButton
+let earthButton
+
+let buttons = []
+let indexPlayerAttack
+let indexEnemyAttack
+let playerVictories = 0
+let enemyVictories = 0
+
+let playerHealth = 3
+let enemyHealth = 3
+
+
 
 class Arkymon {
     constructor(name, icon, health, elementName , elementIcon){
@@ -147,12 +154,12 @@ function startGame(){
         inputVulkanomon = document.getElementById("Vulkanomon")
     })
 
-    selectorButton.addEventListener("click", petSelector)
+    selectorButton.addEventListener("click", playerPetSelector)
     
     resetButton.addEventListener("click", resetGame)
 }
 
-function petSelector(){
+function playerPetSelector(){
     let play = 1
     sectionPetSelector.style.display = "none"
     sectionAttacktSelector.style.display = "flex"
@@ -167,7 +174,7 @@ function petSelector(){
         yourPet.innerHTML = inputPyromon.id
         playerPet = inputPyromon.id
     }else if(inputPryronumon.checked){
-        yourPet.innerHTML = "Pyronumon"
+        yourPet.innerHTML = inputPryronumon.id
         playerPet = inputPryronumon.id
     }else if(inputArkyteranomon.checked){
         yourPet.innerHTML = inputArkyteranomon.id
@@ -195,11 +202,11 @@ function petSelector(){
 function extractAttack (playerPet){
     let attacks
     //solución 1
-    arkymons.forEach((arkymon) => {
-        if (playerPet === arkymon.name) {
-            attacks = arkymon.attack
-        }
-    })
+    //arkymons.forEach((arkymon) => {
+      //  if (playerPet === arkymon.name) {
+        //    attacks = arkymon.attack
+        //}
+    //})
     //solución 2
     for (let i = 0; i < arkymons.length; i++){
         if (playerPet === arkymons[i].name){
@@ -211,79 +218,114 @@ function extractAttack (playerPet){
 
 function showAttacks (attacks) {
     attacks.forEach((attack) => {
-        arkymonAttack = `
-        <button class="attackButton" id=${attack.id}>${attack.name}</button>
+        arkymonAttacks = `
+        <button class="attackButton attackBTN" id=${attack.id}>${attack.name}</button>
         `
-        attacksContainer.innerHTML += arkymonAttack
+        attacksContainer.innerHTML += arkymonAttacks
     })
     waterButton = document.getElementById("water-button")
     fireButton = document.getElementById("fire-button")
     earthButton = document.getElementById("earth-button")
-
-    waterButton.addEventListener("click", waterAttack)
-    fireButton.addEventListener("click", fireAttack)
-    earthButton.addEventListener("click", earthAttack)
-
+    buttons = document.querySelectorAll(".attackBTN")
 }
+
+function attackSequency(){
+    buttons.forEach((button) => {
+        button.addEventListener("click", (e) => {
+            console.log(e)
+            if (e.target.textContent === "🔥"){
+                playerAttack.push("Fire")
+                console.log(playerAttack)
+                button.style.background = "#008080"
+                button.disabled = true
+            }
+            else if (e.target.textContent === "💧") {
+                    playerAttack.push("Water")
+                    console.log(playerAttack)
+                    button.style.background = "#008080"
+                    button.disabled = true
+            }else {
+                playerAttack.push("Earth")
+                console.log(playerAttack)
+                button.style.background = "#008080"
+                button.disabled = true
+            }
+            enemyRandomAttack()
+        })
+    })
+}
+
 function enemyPetSelector(){
     let randomPet = randomizer(0, arkymons.length -1)
     enemyPet.innerHTML = arkymons[randomPet].name
+    enemyArkymonAttacks = arkymons[randomPet].attack
+    attackSequency()
 }
 
-function waterAttack(){
-    playerAttack = "Water"
-    enemyRandomAttack()
-}
-function fireAttack() {
-    playerAttack = "Fire"
-    enemyRandomAttack()    
-}
-function earthAttack() {
-    playerAttack = "Earth"
-    enemyRandomAttack()
-}
 
 function enemyRandomAttack(){
-    let randomAttack = randomizer(1,3)
+    let randomAttack = randomizer(0, enemyArkymonAttacks.length -1)
     
-    if (randomAttack == 1){
-        enemyAttack = "Water"
-    }else if (randomAttack == 2){
-        enemyAttack = "Fire"
+    if (randomAttack == 0 || randomAttack == 1){
+        enemyAttack.push("Water")
+    }else if (randomAttack == 3 || randomAttack == 4){
+        enemyAttack.push("Fire")
     }else {
-        enemyAttack = "Earth"
+        enemyAttack.push("Earth")
     }
-    combat()
+    console.log(enemyAttack)
+    startCombat()
+}
+
+function startCombat(){
+    if (playerAttack.length === 5){
+        combat()
+    }
+}
+
+function indexAllPlayers(player, enemy){
+    indexPlayerAttack = playerAttack[player]
+    indexEnemyAttack = enemyAttack[enemy]
 }
 
 function combat(){
-    if(enemyAttack == playerAttack){
-        message("EMPATE")
-    }else if(playerAttack == "Water" && enemyAttack == "Fire"){
-        message("GANASTE")
-        enemyHealth--
-        spanEnemyHealth.innerHTML = enemyHealth
-    }else if(playerAttack == "Fire" && enemyAttack == "Earth"){
-        message("GANASTE")
-        enemyHealth--
-        spanEnemyHealth.innerHTML = enemyHealth
-    }else if(playerAttack == "Earth" && enemyAttack == "Water"){
-        message("GANASTE")
-        enemyHealth--
-        spanEnemyHealth.innerHTML = enemyHealth
-    }else{
-        message("PERDISTE")
-        playerHealth--
-        spanPlayerHealth.innerHTML = playerHealth
+    for (let index = 0; index < playerAttack.length; index++) {
+        if(playerAttack[index] === enemyAttack[index]){
+            indexAllPlayers(index, index)
+            message("EMPATE")
+            spanPlayerHealth.innerHTML = playerVictories
+        }else if(playerAttack[index] === "Fire" && enemyAttack[index] == "Earth"){
+            indexAllPlayers(index, index)
+            message("GANASTE")
+            playerVictories++
+            spanPlayerHealth.innerHTML = playerVictories
+        }else if(playerAttack[index] === "Water" && enemyAttack[index] == "Fire"){
+            indexAllPlayers(index, index)
+            message("GANASTE")
+            playerVictories++
+            spanPlayerHealth.innerHTML = playerVictories
+        }else if(playerAttack[index] === "Earth" && enemyAttack[index] == "Water"){
+            indexAllPlayers(index, index)
+            message("GANASTE")
+            playerVictories++
+            spanPlayerHealth.innerHTML = playerVictories
+        }else{
+            indexAllPlayers(index, index)
+            message("PERDISTE")
+            enemyVictories++
+            spanEnemyHealth.innerHTML = enemyVictories
+        }
     }
     checkHealth()
 }
 
 function checkHealth() {
-    if (enemyHealth == 0){
-        finalMessage("Felicidades, ganaste :)")
-    }else if (playerHealth == 0){
-        finalMessage("Derrota, perdiste :(")
+    if (playerVictories === enemyVictories){
+        finalMessage("Terminó en empate!")
+    }else if (playerVictories > enemyVictories){
+        finalMessage("VICTORIA!!")
+    }else{
+        finalMessage("DERROTA")
     }
 }
 
@@ -292,8 +334,8 @@ function message (resultado){
     let newEnemyAttack = document.createElement("p")
     
     sectionMessage.innerHTML = resultado
-    newPlayerAttack.innerHTML = playerAttack
-    newEnemyAttack.innerHTML = enemyAttack
+    newPlayerAttack.innerHTML = indexPlayerAttack
+    newEnemyAttack.innerHTML = indexEnemyAttack
     
     sectionPlayerAttack.appendChild(newPlayerAttack)
     sectionEnemyAttack.appendChild(newEnemyAttack)
